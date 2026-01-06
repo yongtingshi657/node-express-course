@@ -157,6 +157,18 @@ const names = [
   'Amy You'
 ];
 
+
+// 1.
+const onlyLastName = names.map(name => {
+  const nameParts = name.split(' ')
+  return nameParts[nameParts.length -1]
+})
+
+console.log('1. Last Name only', onlyLastName)
+
+// 2. 
+const correctFormat= ``
+
 ///////////////////////////////////////////////////////////////////////////////
 //// put your answers above if you wish to do the challenges on your own //////
 ///////////////////////////////////////////////////////////////////////////////
