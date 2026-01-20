@@ -1,13 +1,10 @@
 const jwt = require("jsonwebtoken");
-const {UnauthenticatedError} = require("../errors");
-
-
 
 const authenticationMiddleware = async (req, res, next) => {
-  const authHeader = req.headers.authorization;
+  const authHeader = req.header("Authorization");
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    throw new UnauthenticatedError("No token provided");
+    res.status(401).json({ msg: "no token provided" });
   }
 
   const token = authHeader.split(" ")[1];
@@ -15,13 +12,18 @@ const authenticationMiddleware = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    const { id, username } = decoded;
+    const { id, name } = decoded;
 
-    req.user = { id, username };
+    console.log(name);
+
+    req.user = { id, name };
+
+    console.log('Verify Token Successfully')
 
     next();
   } catch (error) {
-    throw new UnauthenticatedError("Not Authorized to access this route");
+    console.log(error);
+    res.status(401).json({ msg: "Authentication Failed" });
   }
 };
 
